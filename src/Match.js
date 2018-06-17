@@ -10,6 +10,7 @@ function importAll(r) {
     return images;
 }
 const flags = importAll(require.context('./flags', false, /\.(png|jpe?g|svg)$/));
+const icons = importAll(require.context('./icons', false, /\.(png|jpe?g|svg)$/))
 
 class Match extends Component {
     isCompleted() {
@@ -51,13 +52,7 @@ function formatPlayerName(name) {
 const ScoreBoard = (props) => (
     <div className="scoreboard">
         <div className="events">
-            <div className="events">
-                <ol style={{ paddingLeft: '10px', textAlign: 'left' }}>
-                    {props.home_team_events.map((event, i) => (
-                        <li key={i}>{event.time} {event.type_of_event} {formatPlayerName(event.player)}</li>
-                    ))}
-                </ol>
-            </div>
+            <Events events={props.home_team_events} />
             <div className={"score" + (props.home_team.code === props.winner_code ? ' winner' : '')}>
                 {props.home_team.goals}
             </div>
@@ -74,16 +69,34 @@ const ScoreBoard = (props) => (
             <div className={"score" + (props.away_team.code === props.winner_code ? ' winner' : '')}>
                 {props.away_team.goals}
             </div>
-            <div className="events">
-                <ol style={{ paddingRight: '10px', textAlign: 'right' }}>
-                    {props.away_team_events.map((event, i) => (
-                        <li key={i}>{formatPlayerName(event.player)} {event.type_of_event} {event.time}</li>
-                    ))}
-                </ol>
-            </div>
+            <Events events={props.away_team_events} />
         </div>
     </div>
 );
+
+const Events = (props) => (
+    <div className="events">
+        <ol style={{ paddingLeft: '10px', textAlign: 'left' }}>
+            {props.events.map((event, i) => (
+                <li key={i}>{event.time} <EventIcon type={event.type_of_event} /> {formatPlayerName(event.player)} </li>
+            ))}
+        </ol>
+    </div>
+);
+
+const EventIcon = (props) => {
+    switch (props.type) {
+        case 'goal':
+            return <img className="event-icon" src={icons['goal.png']} alt={props.type} />
+        case 'red-card':
+        case 'yellow-card':
+        case 'substitution-in':
+        case 'substitution-out':
+            return <img className="event-icon" src={icons[props.type + '.svg']} alt={props.type} />
+        default:
+            return props.type
+    }
+};
 
 const Team = (props) => (
     <div style={{ backgroundImage: 'url(' + flags[props.code + '.jpg'] + ')' }} className='team'>

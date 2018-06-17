@@ -1,0 +1,17 @@
+<svg width="120" height="50" xmlns="http://www.w3.org/2000/svg">
+ <!-- Created with Method Draw - http://github.com/duopixel/Method-Draw/ -->
+ <g>
+  <title>background</title>
+  <rect fill="#ffffff" id="canvas_background" height="52" width="122" y="-1" x="-1"/>
+  <g display="none" overflow="visible" y="0" x="0" height="100%" width="100%" id="canvasGrid">
+   <rect fill="url(#gridpattern)" stroke-width="0" y="0" x="0" height="100%" width="100%"/>
+  </g>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <text stroke="#000" transform="matrix(0.8623347039842385,0,0,0.8706900060642511,5.183680690587443,8.336993019378042) " xml:space="preserve" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-size="24" id="svg_1" y="26.135869" x="14.092892" stroke-width="0" fill="#000000">IN</text>
+  <line stroke-linecap="undefined" stroke-linejoin="undefined" id="svg_2" y2="24.543837" x2="56.273072" y1="24.543837" x1="115.128828" stroke-width="1.5" stroke="#000" fill="none"/>
+  <line stroke-linecap="undefined" stroke-linejoin="undefined" id="svg_3" y2="35.633207" x2="103.148756" y1="24.130557" x1="114.401347" stroke-width="1.5" stroke="#000" fill="none"/>
+  <line transform="rotate(-90 108.77505493164064,19.129407882690426) " stroke-linecap="undefined" stroke-linejoin="undefined" id="svg_4" y2="24.880731" x2="103.148758" y1="13.378081" x1="114.401349" stroke-width="1.5" stroke="#000" fill="none"/>
+ </g>
+</svg>

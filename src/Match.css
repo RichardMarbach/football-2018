@@ -38,6 +38,10 @@ ol {
     padding: 0;
 }
 
+ol li {
+    padding-bottom: 2px;
+}
+
 .events {
     display: grid;
     grid-template-columns: 10fr 1fr;
@@ -46,4 +50,10 @@ ol {
 
 .events-away {
     grid-template-columns: 1fr 10fr;
+}
+
+.event-icon {
+    max-width: 20px;
+    max-height: 20px;
+    vertical-align: middle;
 }
