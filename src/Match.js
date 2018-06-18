@@ -35,9 +35,9 @@ class Match extends Component {
 
         return (
             <div className={"match"}>
-                <Team {...home_team} showGoals={!this.isFuture()} />
+                <HomeTeam {...home_team} showGoals={!this.isFuture()} />
                 <ScoreBoard {...this.props} gameTime={this.isFuture() ? this.gameTime() : this.props.time} />
-                <Team {...away_team} showGoals={!this.isFuture()} />
+                <AwayTeam {...away_team} showGoals={!this.isFuture()} />
             </div>
         )
     }
@@ -98,10 +98,20 @@ const EventIcon = (props) => {
     }
 };
 
-const Team = (props) => (
-    <div style={{ backgroundImage: 'url(' + flags[props.code + '.jpg'] + ')' }} className='team'>
+const AwayTeam = (props) => (
+    <div className='team team-away'>
         <span className="country-name">
-            {props.country} ({props.code})
+            <img className="team-flag" src={flags[props.code + '.jpg']} alt={props.code} />
+            {props.country}
+        </span>
+    </div>
+);
+
+const HomeTeam = (props) => (
+    <div className='team team-home'>
+        <span className="country-name">
+            {props.country}
+            <img className="team-flag" src={flags[props.code + '.jpg']} alt={props.code} />
         </span>
     </div>
 );

@@ -19,9 +19,12 @@ class App extends Component {
   }
 
   componentDidMount() {
+    let matchData = localStorage.getItem('matchData');
+    matchData = matchData ? JSON.parse(matchData) : []
     this.fetchData()
     this.setState({
       ...this.state,
+      matches: matchData,
       interval: setInterval(() => {
         this.fetchData()
       }, REFRESH)
@@ -31,6 +34,7 @@ class App extends Component {
   fetchData() {
     fetch(API)
       .then(res => res.json())
+      .then(data => { localStorage.setItem('matchData', JSON.stringify(data)); return data; })
       .then(data => this.setState({
         ...this.state,
         matches: data

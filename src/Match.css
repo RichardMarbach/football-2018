@@ -1,32 +1,52 @@
 .match {
     display: grid;
-    grid-template-columns: 2fr 3fr 2fr;
+    grid-template-columns: 1fr 2fr 1fr;
+}
+
+.match:nth-child(2n) {
+    background-color: #f4f4f4;
 }
 
 .team {
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center center;
     display: grid;
-    justify-content: center;
+    justify-content: right;
     align-items: center;
+}
+
+.team-away {
+    justify-content: left;
+}
+
+.team-home .team-flag {
+    margin-left: 20px;
+}
+
+.team-away .team-flag {
+    margin-right: 20px;
+}
+
+.team-flag {
+    width: 60px;
+    height: 35px;
+    /* border: 1px solid #ccc; */
+    box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.17);
+    vertical-align: middle;
 }
 
 span.country-name {
     font-size: 3em;
-    font-family: serif;
-    text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
 }
 
 .scoreboard {
     display: grid;
-    grid-template-columns: 3fr 1fr 3fr;
+    grid-template-columns: 3fr 2fr 3fr;
     text-align: center;
     align-items: center;
+    font-size: 2.5em;
 }
 
 .score {
-    font-size: 2em;
+    font-size: 1.5em;
 }
 
 .winner {
