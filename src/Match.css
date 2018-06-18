@@ -67,6 +67,10 @@ span.country-name {
     top: -32px;
 }
 
+.winner-icon-home {
+    right: 0px;
+}
+
 ol {
     list-style: none;
     padding: 0;

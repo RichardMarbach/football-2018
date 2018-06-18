@@ -121,7 +121,7 @@ const HomeTeam = (props) => (
         <span className="country-name">
             {props.country}
             <div className="flag-region">
-                {!props.winner ? null : <img className="winner-icon" src={winnerIcon} alt="winner" />}
+                {!props.winner ? null : <img className="winner-icon winner-icon-home" src={winnerIcon} alt="winner" />}
                 <img className="team-flag" src={flags[props.code + '.jpg']} alt={props.code} />
             </div>
         </span>
