@@ -57,6 +57,16 @@ span.country-name {
     box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.17);
 }
 
+.flag-region {
+    display: inline;
+    position: relative;
+}
+
+.winner-icon {
+    position: absolute;
+    top: -32px;
+}
+
 ol {
     list-style: none;
     padding: 0;

@@ -2,7 +2,7 @@ import React, {
     Component
 } from 'react';
 import './Match.css';
-
+import winnerIcon from './icons/winner.png';
 
 function importAll(r) {
     let images = {};
@@ -21,6 +21,10 @@ class Match extends Component {
         return this.props.status === 'future';
     }
 
+    isWinner(code) {
+        return this.props.winner_code === code;
+    }
+
     gameTime() {
         const date = new Date(this.props.datetime);
         const localeSpecificTime = date.toLocaleTimeString(navigator.language, {
@@ -35,9 +39,9 @@ class Match extends Component {
 
         return (
             <div className={"match"}>
-                <HomeTeam {...home_team} showGoals={!this.isFuture()} />
+                <HomeTeam {...home_team} winner={this.isWinner(home_team.code)} />
                 <ScoreBoard {...this.props} gameTime={this.isFuture() ? this.gameTime() : this.props.time} />
-                <AwayTeam {...away_team} showGoals={!this.isFuture()} />
+                <AwayTeam {...away_team} winner={this.isWinner(away_team.code)} />
             </div>
         )
     }
@@ -103,7 +107,10 @@ const EventIcon = (props) => {
 const AwayTeam = (props) => (
     <div className='team team-away'>
         <span className="country-name">
-            <img className="team-flag" src={flags[props.code + '.jpg']} alt={props.code} />
+            <div className="flag-region">
+                {!props.winner ? null : <img className="winner-icon" src={winnerIcon} alt="winner" />}
+                <img className="team-flag" src={flags[props.code + '.jpg']} alt={props.code} />
+            </div>
             {props.country}
         </span>
     </div>
@@ -113,7 +120,10 @@ const HomeTeam = (props) => (
     <div className='team team-home'>
         <span className="country-name">
             {props.country}
-            <img className="team-flag" src={flags[props.code + '.jpg']} alt={props.code} />
+            <div className="flag-region">
+                {!props.winner ? null : <img className="winner-icon" src={winnerIcon} alt="winner" />}
+                <img className="team-flag" src={flags[props.code + '.jpg']} alt={props.code} />
+            </div>
         </span>
     </div>
 );
