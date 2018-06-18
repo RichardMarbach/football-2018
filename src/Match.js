@@ -92,6 +92,7 @@ const EventIcon = (props) => {
         case 'yellow-card':
         case 'substitution-in':
         case 'substitution-out':
+        case 'goal-penalty':
             return <img className="event-icon" src={icons[props.type + '.svg']} alt={props.type} />
         default:
             return props.type
