@@ -86,6 +86,11 @@ ol li {
     display: grid;
     grid-template-columns: 10fr 1fr;
     align-items: center;
+    max-height: 100%;
+}
+
+.events-list {
+    align-items: flex-start;
 }
 
 .events-away {

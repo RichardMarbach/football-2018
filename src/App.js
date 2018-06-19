@@ -4,7 +4,7 @@ import React, {
 import './App.css';
 import Match from './Match';
 
-const API = 'http://worldcup.sfg.io/matches/today';
+const API = 'http://worldcup.sfg.io/matches';
 const REFRESH = 60 * 1000;
 
 class App extends Component {
@@ -13,14 +13,17 @@ class App extends Component {
     super(props);
 
     this.state = {
-      matches: [],
+      matches: {
+        yesterday: [],
+        today: []
+      },
       interval: null
     };
   }
 
   componentDidMount() {
-    let matchData = localStorage.getItem('matchData');
-    matchData = matchData ? JSON.parse(matchData) : []
+    let matchData = localStorage.getItem('matches');
+    matchData = matchData ? JSON.parse(matchData) : this.state.matches;
     this.fetchData()
     this.setState({
       ...this.state,
@@ -31,10 +34,26 @@ class App extends Component {
     })
   }
 
+  getDate(dayOffset = 0) {
+    let date = new Date();
+    date.setHours(0, 0, 0, 0);
+    date.setDate(date.getDate() + dayOffset);
+    return date;
+  }
+
   fetchData() {
     fetch(API)
       .then(res => res.json())
-      .then(data => { localStorage.setItem('matchData', JSON.stringify(data)); return data; })
+      .then(data => data.map(match => { match.datetime = new Date(match.datetime); return match; }))
+      .then(matches => matches.reduce((prv, match) => {
+        if (match.datetime.getTime() >= this.getDate(-1).getTime() && match.datetime.getTime() <= this.getDate().getTime()) {
+          prv.yesterday.push(match)
+        } else if (match.datetime.getTime() <= this.getDate(1).getTime() && match.datetime.getTime() >= this.getDate().getTime()) {
+          prv.today.push(match)
+        }
+        return prv;
+      }, { yesterday: [], today: [] }))
+      .then(data => { localStorage.setItem('matches', JSON.stringify(data)); return data; })
       .then(data => this.setState({
         ...this.state,
         matches: data
@@ -43,15 +62,24 @@ class App extends Component {
 
   render() {
     const { matches } = this.state;
-    if (!matches.length) {
-      return (<h1>No matches today</h1>);
+    if (!matches.today.length || !matches.yesterday.length) {
+      return (<h1>No matches today or yesterday</h1>);
     }
 
     return (
       <div className="App" >
-        {matches.map((match, i) =>
-          <Match key={i} {...match} />
-        )}
+        <div className="matches">
+          <div className="divider">Yesterday</div>
+          {matches.yesterday.map((match, i) =>
+            <Match key={i} {...match} yesterday={true} />
+          )}
+        </div>
+        <div className="matches">
+          <div className="divider">Today</div>
+          {matches.today.map((match, i) =>
+            <Match key={i} {...match} />
+          )}
+        </div>
       </div>
     );
   }

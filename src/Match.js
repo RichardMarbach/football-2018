@@ -78,15 +78,102 @@ const ScoreBoard = (props) => (
     </div>
 );
 
-const Events = (props) => (
-    <div className="events">
-        <ol style={{ paddingLeft: '10px', textAlign: 'left' }}>
-            {props.events.map((event, i) => (
-                <li key={i}>{event.time} <EventIcon type={event.type_of_event} /> {formatPlayerName(event.player)} </li>
-            ))}
-        </ol>
-    </div>
-);
+function checkOverflow(el) {
+    var curOverflow = el.style.overflow;
+
+    if (!curOverflow || curOverflow === "visible")
+        el.style.overflow = "hidden";
+
+    var isOverflowing = el.clientWidth < el.scrollWidth
+        || el.clientHeight < el.scrollHeight;
+
+    el.style.overflow = curOverflow;
+
+    return isOverflowing;
+}
+
+class Events extends Component {
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            interval: null
+        }
+    }
+
+    componentDidUpdate() {
+        if (this.container) {
+            this.scrollContainer();
+        }
+    }
+
+    scrollContainer() {
+        if (checkOverflow(this.container)) {
+            this.scrollToBottom()
+        } else {
+            clearInterval(this.state.interval);
+        }
+    }
+
+    scrollToBottom() {
+        if (this.container) {
+            this.animateScroll(10000)
+        }
+    }
+
+    animateScroll(duration) {
+        if (!this.container) return
+        const self = this;
+
+        let start = this.container.scrollTop;
+        let end = this.container.scrollHeight;
+        let change = end - start;
+        let increment = 10;
+
+        function easeInOut(currentTime, start, change, duration) {
+            currentTime /= duration / 2;
+            if (currentTime < 1) {
+                return change / 2 * currentTime * currentTime + start;
+            }
+            currentTime -= 1;
+            return -change / 2 * (currentTime * (currentTime - 2) - 1) + start;
+        }
+
+        function animate(elapsedTime) {
+            if (self.done) {
+                self.container.scrollTop = start;
+                self.done = false;
+            }
+
+            elapsedTime += increment;
+            let position = easeInOut(elapsedTime, start, change, duration);
+            self.container.scrollTop = position;
+            if (elapsedTime >= duration) {
+                self.done = true;
+            }
+            setTimeout(() => animate(elapsedTime), increment);
+        }
+
+        animate(0);
+    }
+
+    render() {
+        const props = this.props;
+
+        return (
+            <div style={{ maxHeight: '100%', overflow: 'hidden' }} ref={c => this.container = c}>
+                <div className="events events-list">
+                    <ol style={{ paddingLeft: '10px', textAlign: 'left' }}>
+                        {props.events.map((event, i) => (
+                            <li key={i}>{event.time} <EventIcon type={event.type_of_event} /> {formatPlayerName(event.player)} </li>
+                        ))}
+                    </ol>
+                </div>
+            </div>
+        );
+    }
+}
 
 const EventIcon = (props) => {
     switch (props.type) {
