@@ -117,7 +117,7 @@ class Events extends Component {
 
     scrollToBottom() {
         if (this.container) {
-            this.animateScroll(10000)
+            this.animateScroll(15000)
         }
     }
 
