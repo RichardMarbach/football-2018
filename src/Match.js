@@ -98,21 +98,20 @@ class Events extends Component {
         super(props);
 
         this.state = {
-            interval: null
+            scrolling: false
         }
     }
 
     componentDidUpdate() {
-        if (this.container) {
+        if (this.container && !this.state.scrolling) {
             this.scrollContainer();
         }
     }
 
     scrollContainer() {
         if (checkOverflow(this.container)) {
+            this.setState({...this.state, scrolling: true});
             this.scrollToBottom()
-        } else {
-            clearInterval(this.state.interval);
         }
     }
 
@@ -126,10 +125,10 @@ class Events extends Component {
         if (!this.container) return
         const self = this;
 
-        let start = this.container.scrollTop;
-        let end = this.container.scrollHeight;
-        let change = end - start;
-        let increment = 10;
+        const start = 0;
+        const end = this.container.scrollHeight;
+        const change = end - start;
+        const increment = 10;
 
         function easeInOut(currentTime, start, change, duration) {
             currentTime /= duration / 2;
@@ -141,18 +140,18 @@ class Events extends Component {
         }
 
         function animate(elapsedTime) {
-            if (self.done) {
-                self.container.scrollTop = start;
-                self.done = false;
-            }
-
             elapsedTime += increment;
-            let position = easeInOut(elapsedTime, start, change, duration);
+            const position = easeInOut(elapsedTime, start, change, duration);
             self.container.scrollTop = position;
-            if (elapsedTime >= duration) {
-                self.done = true;
+
+            if (elapsedTime <= duration) {
+                setTimeout(() => animate(elapsedTime), increment);
+            } else {
+                setTimeout(() => {
+                    self.container.scrollTop = start;
+                    setTimeout(() => animate(0), 2500)
+                }, 5000);
             }
-            setTimeout(() => animate(elapsedTime), increment);
         }
 
         animate(0);
