@@ -62,7 +62,7 @@ class App extends Component {
 
   render() {
     const { matches } = this.state;
-    if (!matches.today.length || !matches.yesterday.length) {
+    if (!matches.today.length && !matches.yesterday.length) {
       return (<h1>No matches today or yesterday</h1>);
     }
 
